@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Testimonios - KarenEntrenadora</title>
+  <link rel="icon" type="image/jpeg" href="/static/img/logo.jpg">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="/static/css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body class="bg-black text-white transition duration-300">
+
+  <!-- Navbar -->
+  <nav class="bg-pink-400 text-black shadow-lg sticky top-0 z-50">
+    <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+      <a href="/" class="flex items-center gap-3">
+        <img src="/static/img/logo.jpg" alt="Logo" class="h-10 w-auto rounded">
+        <span class="text-2xl font-bold">KarenEntrenadora</span>
+      </a>
+
+      <button id="menu-toggle" class="md:hidden text-2xl focus:outline-none">
+        <i class="fas fa-bars"></i>
+      </button>
+
+      <div id="menu" class="hidden md:flex md:space-x-6 mt-4 md:mt-0 md:flex-row flex-col text-center font-semibold">
+        <a href="/" class="hover:text-white">Inicio</a>
+        <a href="/about" class="hover:text-white">Sobre mí</a>
+        <a href="/services" class="hover:text-white">Programas</a>
+        <a href="/contact" class="hover:text-white">Contacto</a>
+        <a href="/testimonios" class="underline font-bold">Testimonios</a>
+        <a href="/resultados" class="hover:text-white">Resultados</a>
+        <a href="/faq" class="hover:text-white">Preguntas</a>
+        {% if session.autorizado %}
+          <a href="/admin/galeria" class="text-yellow-300 hover:text-yellow-400">Administrar galería</a>
+        {% endif %}
+      </div>
+    </div>
+  </nav>
+
+  <!-- Testimonios -->
+  <section class="py-16 px-6">
+    <div class="container mx-auto text-center">
+      <h2 class="text-3xl font-bold mb-8 text-rose-300">Testimonios de clientes</h2>
+
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          {% for category, msg in messages %}
+            <div class="mb-4 px-4 py-2 rounded text-sm font-semibold 
+              {% if category == 'error' %}bg-red-600
+              {% elif category == 'success' %}bg-green-600
+              {% else %}bg-blue-600{% endif %}">
+              {{ msg }}
+            </div>
+          {% endfor %}
+        {% endif %}
+      {% endwith %}
+
+      {% if testimonios %}
+      <div class="grid md:grid-cols-3 sm:grid-cols-2 gap-8">
+        {% for t in testimonios %}
+        <div class="bg-gray-900 p-6 rounded-lg shadow-lg relative">
+          {% if autorizado %}
+          <div class="absolute top-2 right-2 space-x-2">
+            <form method="POST" action="/eliminar-testimonio/{{ loop.index0 }}" onsubmit="return confirmarEliminacion(this);" class="inline">
+              <input type="hidden" name="clave" />
+              <button type="submit" class="text-red-500 hover:text-red-700" title="Eliminar">
+                <i class="fas fa-trash"></i>
+              </button>
+            </form>
+            <a href="/editar-testimonio/{{ loop.index0 }}" class="text-blue-400 hover:text-blue-600" title="Editar">
+              <i class="fas fa-edit"></i>
+            </a>
+          </div>
+          {% endif %}
+          <p class="mb-4">“{{ t.mensaje }}”</p>
+          <h4 class="font-semibold text-pink-300">{{ t.nombre }}</h4>
+        </div>
+        {% endfor %}
+      </div>
+      {% else %}
+        <p class="text-gray-400 mt-6">Todavía no hay testimonios.</p>
+      {% endif %}
+
+      <div class="mt-10">
+        <a href="/agregar-testimonio" class="inline-block bg-pink-400 hover:bg-pink-500 text-black font-bold py-2 px-4 rounded transition">
+          Agregar testimonio
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-gray-800 text-white py-6 text-center">
+    <div class="flex justify-center items-center space-x-4 mb-2">
+      <a href="https://www.instagram.com/karen_entrenadora?igsh=MXRhc3R5NGx3dTg1ZA%3D%3D&utm_source=qr" 
+         target="_blank" 
+         class="text-pink-400 hover:text-pink-500 transition" 
+         aria-label="Instagram">
+        <i class="fab fa-instagram text-2xl"></i>
+      </a>
+    </div>
+    <p>&copy; 2025 KarenEntrenadora. Todos los derechos reservados.</p>
+  </footer>
+
+  <!-- WhatsApp -->
+  <a href="https://wa.me/59894019188?text=Hola%20Karen,%20quiero%20más%20información"
+     class="fixed bottom-6 right-6 bg-green-500 hover:bg-green-600 text-white p-4 rounded-full shadow-lg z-50"
+     target="_blank" aria-label="Chat en WhatsApp">
+    <i class="fab fa-whatsapp text-2xl"></i>
+  </a>
+
+  <!-- Scripts -->
+  <script>
+    function confirmarEliminacion(form) {
+      const clave = prompt("⚠️ Ingrese la clave para eliminar el testimonio:");
+      if (!clave) return false;
+      form.querySelector('input[name="clave"]').value = clave;
+      return true;
+    }
+
+    // Responsive menu toggle
+    const menuToggle = document.getElementById("menu-toggle");
+    const menu = document.getElementById("menu");
+    menuToggle.addEventListener("click", () => {
+      menu.classList.toggle("hidden");
+    });
+
+    // Modo día/noche
+    const body = document.body;
+    const icon = document.getElementById("theme-icon");
+    const saved = localStorage.getItem("theme") || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+
+    function setTheme(mode) {
+      if (mode === "dark") {
+        body.classList.add("bg-black", "text-white");
+        body.classList.remove("bg-light", "text-light");
+        icon.classList.replace("fa-sun", "fa-moon");
+      } else {
+        body.classList.add("bg-light", "text-light");
+        body.classList.remove("bg-black", "text-white");
+        icon.classList.replace("fa-moon", "fa-sun");
+      }
+    }
+
+    setTheme(saved);
+
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+      const current = body.classList.contains("bg-black") ? "dark" : "light";
+      const next = current === "dark" ? "light" : "dark";
+      localStorage.setItem("theme", next);
+      setTheme(next);
+    });
+  </script>
+
+</body>
+</html>

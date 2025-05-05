@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Preguntas Frecuentes - KarenEntrenadora</title>
+  <link rel="icon" type="image/jpeg" href="/static/img/logo.jpg">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="/static/css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body class="bg-black text-white transition duration-300">
+
+  <!-- Navbar -->
+  <nav class="bg-pink-400 text-black shadow-lg sticky top-0 z-50">
+    <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+      <a href="/" class="flex items-center gap-3">
+        <img src="/static/img/logo.jpg" alt="Logo" class="h-10 rounded">
+        <span class="text-2xl font-bold">KarenEntrenadora</span>
+      </a>
+
+      <button id="menu-toggle" class="md:hidden text-2xl focus:outline-none">
+        <i class="fas fa-bars"></i>
+      </button>
+
+      <div id="menu" class="hidden md:flex md:space-x-6 mt-4 md:mt-0 md:flex-row flex-col text-center font-semibold">
+        <a href="/" class="hover:text-white">Inicio</a>
+        <a href="/about" class="hover:text-white">Sobre mí</a>
+        <a href="/services" class="hover:text-white">Planes</a>
+        <a href="/contact" class="hover:text-white">Contacto</a>
+        <a href="/testimonios" class="hover:text-white">Testimonios</a>
+        <a href="/resultados" class="hover:text-white">Resultados</a>
+        <a href="/faq" class="underline font-bold">Preguntas</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Preguntas Frecuentes -->
+  <section class="container mx-auto px-6 py-16 text-white">
+    <h1 class="text-4xl font-bold text-rose-300 mb-10 text-center">Preguntas Frecuentes</h1>
+    <div class="space-y-8">
+      <div>
+        <h2 class="text-xl font-semibold text-pink-300">¿Qué incluye cada plan?</h2>
+        <p>Cada plan incluye rutinas personalizadas, seguimiento semanal y plan alimenticio adaptado a tus objetivos.</p>
+      </div>
+      <div>
+        <h2 class="text-xl font-semibold text-pink-300">¿Cómo me comunico si tengo dudas?</h2>
+        <p>Podés escribirme directamente por <a href="https://wa.me/59891509643" class="text-pink-400 underline">WhatsApp</a> o desde la sección de contacto.</p>
+      </div>
+      <div>
+        <h2 class="text-xl font-semibold text-pink-300">¿Cuánto duran los planes?</h2>
+        <p>La duración mínima recomendada es de 4 semanas, pero se pueden extender según tu progreso.</p>
+      </div>
+      <div>
+        <h2 class="text-xl font-semibold text-pink-300">¿Ofrecés clases online?</h2>
+        <p>Sí, hay planes 100% online que incluyen seguimiento por videollamadas y mensajes.</p>
+      </div>
+      <div>
+        <h2 class="text-xl font-semibold text-pink-300">¿Puedo pedir un reembolso después de pagar un plan?</h2>
+        <p>No. A partir de abril de 2025, una vez realizado el pago por clases o planes de entrenamiento, no se realizan devoluciones bajo ninguna circunstancia. Esta política garantiza un servicio organizado y de calidad para todos.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-gray-800 text-white py-6 text-center">
+    <div class="flex justify-center items-center space-x-4 mb-2">
+      <a href="https://www.instagram.com/karen_entrenadora" 
+         target="_blank" 
+         class="text-pink-400 hover:text-pink-500 transition" 
+         aria-label="Instagram">
+        <i class="fab fa-instagram text-2xl"></i>
+      </a>
+    </div>
+    <p>&copy; 2025 KarenEntrenadora. Todos los derechos reservados.</p>
+  </footer>
+
+  <!-- Script Menú Responsive -->
+  <script>
+    const menuToggle = document.getElementById("menu-toggle");
+    const menu = document.getElementById("menu");
+    menuToggle.addEventListener("click", () => {
+      menu.classList.toggle("hidden");
+    });
+  </script>
+
+</body>
+</html>

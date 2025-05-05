@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>KarenEntrenadora - Inicio</title>
+  <link rel="icon" type="image/jpeg" href="/static/img/logo.jpg">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            pinkMain: '#f9a8d4'
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-black text-white transition duration-300">
+
+  <!-- Navbar -->
+  <nav class="bg-pink-400 text-black shadow-lg sticky top-0 z-50">
+    <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+      <a href="/" class="flex items-center gap-2">
+        <img src="/static/img/logo.jpg" alt="Logo" class="h-10 w-auto rounded">
+        <span class="text-2xl font-bold">KarenEntrenadora</span>
+      </a>
+
+      <!-- Botón hamburguesa -->
+      <button id="menu-toggle" class="md:hidden text-2xl focus:outline-none">
+        <i class="fas fa-bars"></i>
+      </button>
+
+      <!-- Menú -->
+      <div id="menu" class="hidden md:flex flex-col md:flex-row md:space-x-6 mt-4 md:mt-0 text-base font-semibold">
+        <a href="/" class="hover:text-white">Inicio</a>
+        <a href="/about" class="hover:text-white">Sobre mí</a>
+        <a href="/services" class="hover:text-white">Programas</a>
+        <a href="/contact" class="hover:text-white">Contacto</a>
+        <a href="/testimonios" class="hover:text-white">Testimonios</a>
+        <a href="/resultados" class="hover:text-white">Resultados</a>
+        <a href="/faq" class="hover:text-white">Preguntas</a>
+        {% if session.autorizado %}
+        <a href="/admin/galeria" class="text-yellow-300 hover:text-yellow-400">Administrar galería</a>
+        {% endif %}
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="bg-cover bg-center h-screen flex items-center" style="background-image: url('/static/img/mancuerna.jpg');">
+    <div class="bg-black bg-opacity-60 w-full h-full flex items-center">
+      <div class="container mx-auto px-6 text-center">
+        <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold mb-4 text-rose-300">Cree en ti mismo y serás imparable</h1>
+        <p class="text-lg sm:text-xl md:text-2xl mb-4">Entrenamiento profesional adaptado a tus objetivos</p>
+        <p class="text-lg sm:text-xl md:text-2xl mb-8">Logra tu mejor versión</p>
+        <a href="/contact" class="bg-pink-400 hover:bg-pink-500 text-black font-bold py-3 px-6 rounded-lg text-lg transition duration-300 inline-block">
+          Comenzá hoy
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-gray-800 text-white py-6 text-center">
+    <div class="flex justify-center items-center space-x-4 mb-2">
+      <a href="https://www.instagram.com/karen_entrenadora" target="_blank" class="text-pink-400 hover:text-pink-500 transition" aria-label="Instagram">
+        <i class="fab fa-instagram text-2xl"></i>
+      </a>
+    </div>
+    <p>&copy; 2025 KarenEntrenadora. Todos los derechos reservados.</p>
+  </footer>
+
+  <!-- WhatsApp -->
+  <a href="https://wa.me/59894019188?text=Hola%20Karen,%20quiero%20más%20información"
+     class="fixed bottom-6 right-6 bg-green-500 hover:bg-green-600 text-white p-4 rounded-full shadow-lg z-50"
+     target="_blank" aria-label="Chat en WhatsApp">
+    <i class="fab fa-whatsapp text-2xl"></i>
+  </a>
+
+  <!-- Script Responsive Nav -->
+  <script>
+    const toggle = document.getElementById("menu-toggle");
+    const menu = document.getElementById("menu");
+    toggle.addEventListener("click", () => {
+      menu.classList.toggle("hidden");
+    });
+  </script>
+
+  <!-- Script Modo Día/Noche -->
+  <script>
+    const body = document.body;
+    const icon = document.getElementById("theme-icon");
+    const saved = localStorage.getItem("theme") || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+
+    function setTheme(mode) {
+      if (mode === "dark") {
+        body.classList.add("bg-black", "text-white");
+        icon?.classList.replace("fa-sun", "fa-moon");
+      } else {
+        body.classList.remove("bg-black", "text-white");
+        body.classList.add("bg-white", "text-black");
+        icon?.classList.replace("fa-moon", "fa-sun");
+      }
+    }
+
+    setTheme(saved);
+
+    document.getElementById("theme-toggle")?.addEventListener("click", () => {
+      const current = body.classList.contains("bg-black") ? "dark" : "light";
+      const next = current === "dark" ? "light" : "dark";
+      localStorage.setItem("theme", next);
+      setTheme(next);
+    });
+  </script>
+
+</body>
+</html>

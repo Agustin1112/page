@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sobre mí - KarenEntrenadora</title>
+  <link rel="icon" type="image/jpeg" href="/static/img/logo.jpg">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="/static/css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body class="bg-black text-white transition duration-300">
+
+  <!-- Navbar -->
+  <nav class="bg-pink-400 text-black shadow-lg sticky top-0 z-50">
+    <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+      <a href="/" class="flex items-center gap-3">
+        <img src="/static/img/logo.jpg" alt="Logo" class="h-10 w-auto rounded">
+        <span class="text-2xl font-bold">KarenEntrenadora</span>
+      </a>
+
+      <!-- Botón hamburguesa (visible solo en móvil) -->
+      <button id="menu-toggle" class="md:hidden text-2xl focus:outline-none">
+        <i class="fas fa-bars"></i>
+      </button>
+
+      <!-- Menú -->
+      <div id="menu" class="hidden md:flex md:space-x-6 font-semibold mt-4 md:mt-0 md:flex-row flex-col text-center">
+        <a href="/" class="hover:text-white">Inicio</a>
+        <a href="/about" class="underline font-bold">Sobre mí</a>
+        <a href="/services" class="hover:text-white">Programas</a>
+        <a href="/contact" class="hover:text-white">Contacto</a>
+        <a href="/testimonios" class="hover:text-white">Testimonios</a>
+        <a href="/resultados" class="hover:text-white">Resultados</a>
+        <a href="/faq" class="hover:text-white">Preguntas</a>
+        {% if session.autorizado %}
+        <a href="/admin/galeria" class="text-yellow-300 hover:text-yellow-400">Administrar galería</a>
+        {% endif %}
+      </div>
+    </div>
+  </nav>
+
+  <!-- Contenido principal -->
+  <section class="container mx-auto px-6 py-16">
+    <h1 class="text-4xl font-bold mb-6 text-rose-300 text-center">Sobre mí</h1>
+    <p class="text-lg leading-relaxed mb-4">
+      En <strong>KarenEntrenadora</strong>, creemos que cada cuerpo cuenta una historia. Como tu entrenadora personal, estoy aquí para guiarte en cada paso de tu viaje fitness.
+    </p>
+    <p class="text-lg leading-relaxed">
+      Como entrenadora titulada, adapto cada sesión a tu nivel, ritmo y preferencias. Ya seas principiante o avanzado, juntos encontraremos el enfoque ideal para ti.
+    </p>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-gray-800 text-white py-6 text-center">
+    <div class="flex justify-center items-center space-x-4 mb-2">
+      <a href="https://www.instagram.com/karen_entrenadora" 
+         target="_blank" 
+         class="text-pink-400 hover:text-pink-500 transition" 
+         aria-label="Instagram">
+        <i class="fab fa-instagram text-2xl"></i>
+      </a>
+    </div>
+    <p>&copy; 2025 KarenEntrenadora. Todos los derechos reservados.</p>
+  </footer>
+
+  <!-- WhatsApp -->
+  <a href="https://wa.me/59894019188?text=Hola%20Karen,%20quiero%20más%20información"
+     class="fixed bottom-6 right-6 bg-green-500 hover:bg-green-600 text-white p-4 rounded-full shadow-lg z-50"
+     target="_blank" aria-label="Chat en WhatsApp">
+    <i class="fab fa-whatsapp text-2xl"></i>
+  </a>
+
+  <!-- Scripts -->
+  <script>
+    const toggle = document.getElementById("menu-toggle");
+    const menu = document.getElementById("menu");
+    toggle.addEventListener("click", () => {
+      menu.classList.toggle("hidden");
+    });
+  </script>
+
+</body>
+</html>
