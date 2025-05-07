@@ -1,7 +1,7 @@
 import os
 import json
-from flask import Flask, render_template, request, redirect, url_for, flash, session
 from flask_mail import Mail, Message
+from flask import Flask, render_template, request, redirect, url_for, flash, session
 from dotenv import load_dotenv
 from werkzeug.utils import secure_filename
 
@@ -228,7 +228,6 @@ def eliminar_resultado(index):
 @app.route("/faq")
 def faq():
     return render_template("faq.html")
-
 
 # ========= EJECUTAR =========
 
