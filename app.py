@@ -4,6 +4,8 @@ from flask_mail import Mail, Message
 from flask import Flask, render_template, request, redirect, url_for, flash, session
 from dotenv import load_dotenv
 from werkzeug.utils import secure_filename
+import cloudinary
+import cloudinary.uploader
 
 # Cargar variables de entorno
 load_dotenv()
@@ -12,10 +14,14 @@ app = Flask(__name__)
 app.secret_key = os.getenv("SECRET_KEY")
 
 # Configuración de subida
-UPLOAD_FOLDER = "static/uploads"
 ALLOWED_EXTENSIONS = {"png", "jpg", "jpeg", "gif"}
-os.makedirs(UPLOAD_FOLDER, exist_ok=True)
-app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
+
+# Configuración de Cloudinary
+cloudinary.config(
+    cloud_name=os.getenv("CLOUDINARY_CLOUD_NAME"),
+    api_key=os.getenv("CLOUDINARY_API_KEY"),
+    api_secret=os.getenv("CLOUDINARY_API_SECRET")
+)
 
 # Configuración de correo
 app.config['MAIL_SERVER'] = os.getenv("MAIL_SERVER")
@@ -191,16 +197,16 @@ def admin_galeria():
             return redirect(url_for("admin_galeria"))
 
         if file and allowed_file(file.filename):
-            filename = secure_filename(file.filename)
-            filepath = os.path.join(app.config["UPLOAD_FOLDER"], filename)
-            file.save(filepath)
-
-            ruta_web = f"/static/uploads/{filename}"
-            imagenes.append(ruta_web)
-            with open("resultados.json", "w", encoding="utf-8") as f:
-                json.dump(imagenes, f, ensure_ascii=False, indent=2)
-
-            flash("Imagen subida correctamente ✅", "success")
+            try:
+                upload_result = cloudinary.uploader.upload(file)
+                ruta_web = upload_result.get("secure_url")
+                imagenes.append(ruta_web)
+                with open("resultados.json", "w", encoding="utf-8") as f:
+                    json.dump(imagenes, f, ensure_ascii=False, indent=2)
+                flash("Imagen subida correctamente ✅", "success")
+            except Exception as e:
+                print("Error al subir a Cloudinary:", e)
+                flash("Ocurrió un error al subir la imagen.", "error")
             return redirect(url_for("admin_galeria"))
         else:
             flash("Formato no permitido. Solo PNG, JPG, JPEG y GIF.", "error")
